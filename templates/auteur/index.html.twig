@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Auteur index{% endblock %}
+
+{% block body %}
+   <div style="text-align:center">
+    <h1 style="background-color:grey;color:white;">Auteurs</h1>
+  </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom_prenom</th>
+                <th>Sexe</th>
+                <th>Date_de_naissance</th>
+                <th>Nationalite</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for auteur in auteurs %}
+            <tr>
+                <td>{{ auteur.id }}</td>
+                <td>{{ auteur.nomPrenom }}</td>
+                <td>{{ auteur.sexe }}</td>
+                <td>{{ auteur.dateDeNaissance ? auteur.dateDeNaissance|date('Y-m-d') : '' }}</td>
+                <td>{{ auteur.nationalite }}</td>
+                <td>
+                    <a class = 'btn btn-primary' href="{{ path('auteur_show', {'id': auteur.id}) }}">show</a>
+                     {% if app.user and app.user.roles[0]=="ROLE_ADMIN"  %}
+                    <a class = 'btn btn-primary' href="{{ path('auteur_edit', {'id': auteur.id}) }}">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+     {% if app.user and app.user.roles[0]=="ROLE_ADMIN"  %}
+
+    <a class = 'btn btn-primary' href="{{ path('auteur_new') }}">Create new</a><br>
+ {% endif %}  
+   <a class = 'btn btn-secondary' href="{{ path('home') }}">go back</a>
+{% endblock %}

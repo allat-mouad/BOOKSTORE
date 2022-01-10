@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livre index{% endblock %}
+
+{% block body %}
+    <div style="text-align:center">
+    <h1 style="background-color:black;color:white;">Livres</h1>
+  </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Isbn</th>
+                <th>Titre</th>
+                <th>Nombre_pages</th>
+                <th>Date_de_parution</th>
+                <th>Note</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for livre in livres %}
+            <tr>
+                <td>{{ livre.id }}</td>
+                <td>{{ livre.isbn }}</td>
+                <td>{{ livre.titre }}</td>
+                <td>{{ livre.nombrePages }}</td>
+                <td>{{ livre.dateDeParution ? livre.dateDeParution|date('Y-m-d') : '' }}</td>
+                <td>{{ livre.note }}</td>
+                <td>
+                     <a class='btn btn-primary' href="{{path('livre_show', {'id': livre.id})  }}">Show</a>
+                      {% if app.user and app.user.roles[0]=="ROLE_ADMIN"  %}
+                    <a class='btn btn-primary' href="{{path('livre_edit',{'id' : livre.id})  }}">Edit</a>
+                      {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if app.user and app.user.roles[0]=="ROLE_ADMIN"  %}
+    <a class = 'btn btn-primary' href="{{ path('livre_new') }}">Create new</a>
+     {% endif %}
+    <a class = 'btn btn-secondary' href="{{ path('home') }}">go back</a>
+{% endblock %}

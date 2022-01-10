@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+    <table class='table'>
+        <tr>
+            <th>Nom du genre</th>
+            <td>{{ form_row(form.nom) }}</td>
+        </tr>
+    </table>
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
